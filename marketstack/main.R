@@ -1,4 +1,6 @@
 library(jsonlite)
+library(ggplot2)
+library(plotly)
 
 base_url <- "https://api.marketstack.com"
 url <- paste(base_url, "/v1/eod/latest", sep = "")
@@ -26,3 +28,7 @@ data <- r$data
 as_date <- function(d) as.Date(d)
 data$date <- lapply(data$date, as_date)
 data
+
+fig <- plot_ly(data, x = ~date, y = ~volume, type = "scatter", mode = "lines")
+fig <- fig %>% layout(title = paste("Volume"))
+fig
