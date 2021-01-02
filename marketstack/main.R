@@ -3,7 +3,7 @@ library(ggplot2)
 library(plotly)
 
 base_url <- "https://api.marketstack.com"
-url <- paste(base_url, "/v1/eod/latest", sep = "")
+url <- paste0(base_url, "/v1/eod/latest")
 
 symbols = c("GOOG", "AMZN", "FB", "AAPL")
 query = list(
@@ -48,5 +48,5 @@ for (symbol in symbols) {
   )
 }
 
-fig <- fig %>% layout(title = paste("Volume"))
+fig <- fig %>% layout(title = "Volume")
 fig
