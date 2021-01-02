@@ -5,9 +5,10 @@ library(plotly)
 base_url <- "https://api.marketstack.com"
 url <- paste(base_url, "/v1/eod/latest", sep = "")
 
+symbols = c("GOOG", "AMZN", "FB", "AAPL")
 query = list(
   token = "",
-  symbols = "",
+  symbols = paste(symbols, collapse = ","),
   from = "",
   to = ""
 )
@@ -29,6 +30,23 @@ as_date <- function(d) as.Date(d)
 data$date <- lapply(data$date, as_date)
 data
 
-fig <- plot_ly(data, x = ~date, y = ~volume, type = "scatter", mode = "lines")
+fig <- plot_ly(
+  x = ~date,
+  # transforms = list(
+  #   list(
+  #     type = 'groupby',
+  #     groups = ~symbol
+  #   )
+  # )
+)
+
+for (symbol in symbols) {
+  fig <- fig %>% add_lines(
+    data = data[data$symbol == symbol,],
+    y = ~volume,
+    name = symbol
+  )
+}
+
 fig <- fig %>% layout(title = paste("Volume"))
 fig
