@@ -22,3 +22,7 @@ url <- Reduce(join, names(query), url)
 
 r <- fromJSON(url)
 data <- r$data
+
+as_date <- function(d) as.Date(d)
+data$date <- lapply(data$date, as_date)
+data
