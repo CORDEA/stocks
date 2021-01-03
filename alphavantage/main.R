@@ -23,3 +23,11 @@ url <- Reduce(join, names(query), url)
 r <- fromJSON(url)
 data <- r$`Time Series (Daily)`
 
+df <- data.frame(
+  list(
+    unlist(Map(function(x) as.Date(x), names(data)), use.names = FALSE),
+    unlist(Map(function(x) x[5], data), use.names = FALSE)
+  )
+)
+names(df) <- c("Date", "Volume")
+
