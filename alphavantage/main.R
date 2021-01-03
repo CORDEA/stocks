@@ -1,4 +1,6 @@
 library(jsonlite)
+library(ggplot2)
+library(plotly)
 
 base_url <- "https://www.alphavantage.co"
 url <- paste0(base_url, "/query")
@@ -29,5 +31,15 @@ df <- data.frame(
     unlist(Map(function(x) x[5], data), use.names = FALSE)
   )
 )
-names(df) <- c("Date", "Volume")
+names(df) <- c("date", "volume")
 
+fig <- plot_ly(
+  df,
+  x = ~date,
+  y = ~volume,
+  type = "scatter",
+  mode = "lines"
+)
+
+fig <- fig %>% layout(title = "Volume")
+fig
