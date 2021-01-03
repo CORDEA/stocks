@@ -27,8 +27,8 @@ data <- r$`Time Series (Daily)`
 
 df <- data.frame(
   list(
-    unlist(Map(function(x) as.Date(x), names(data)), use.names = FALSE),
-    unlist(Map(function(x) x[5], data), use.names = FALSE)
+    unlist(Map(function(x) x, names(data)), use.names = FALSE),
+    unlist(Map(function(x) as.integer(x[5]), data), use.names = FALSE)
   )
 )
 names(df) <- c("date", "volume")
@@ -41,5 +41,11 @@ fig <- plot_ly(
   mode = "lines"
 )
 
-fig <- fig %>% layout(title = "Volume")
+fig <- fig %>% layout(
+  title = "Volume",
+  xaxis = list(
+    type = "date",
+    tickformat = "%B %d"
+  )
+)
 fig
